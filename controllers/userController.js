@@ -9,7 +9,6 @@ exports.signUp = async (req, res) =>{
             lastName,
             email,
             phoneNumber,
-            pin,
             password,
             confirmPassword
     } = req.body
@@ -36,7 +35,6 @@ exports.signUp = async (req, res) =>{
             email:email.toLowerCase(),
             phoneNumber,
             acctNumber:phoneNumber.slice(1, 11),
-            pin,
             password: hash,
             confirmPassword: hash
             

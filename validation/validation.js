@@ -13,12 +13,7 @@ const validation = (req, res, next) => {
     phoneNumber: hapiJoiValidator.string().min(11).trim().regex(/^\d{11}$/).required().messages({
       'string.empty': 'phone number cannot be empty',
       'string.pattern.base': 'Invalid phone number format', // Added a pattern validation message
-  }),   
-    pin: hapiJoiValidator.string().min(4).trim().regex(/^\d{4}$/).required().messages({
-      'string.empty': 'pin cannot be empty',
-      'string.pattern.base': 'Your pin must contain 4-digits only',
-
-  }),  
+  }),    
     email: hapiJoiValidator.string().email({ tlds: { allow: false } }).trim().min(5).required().messages({
       'string.empty': 'email cannot be empty',
       'string.email': 'Invalid email format',

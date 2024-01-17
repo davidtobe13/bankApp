@@ -17,9 +17,6 @@ const userSchema = new mongoose.Schema({
     acctNumber: {
         type: String,
     },
-    pin: {
-        type: String,
-    },
     password: {
         type: String,
     },

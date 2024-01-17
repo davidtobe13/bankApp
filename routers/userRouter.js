@@ -98,7 +98,7 @@ router.post('/logout', authorization, logOut);
 
 /**
  * @swagger
- * /user/getOne:
+ * /api/v1/getone:
  *   get:
  *     summary: Get user details
  *     tags: [Users]

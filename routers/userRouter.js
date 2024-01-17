@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const { signUp, login, logOut } = require('../controllers/userController');
+const { signUp, login, logOut, getOne } = require('../controllers/userController');
 const authorization = require('../middleware/authorization');
 const validation = require('../validation/validation');
 
@@ -95,6 +95,35 @@ router.post('/login', login)
  *         description: Internal Server Error
  */
 router.post('/logout', authorization, logOut);
+
+/**
+ * @swagger
+ * /user/getOne:
+ *   get:
+ *     summary: Get user details
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: User fetched successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: User fetched successfully
+ *               data:
+ *                 name: John Doe
+ *                 email: john.doe@example.com
+ *                 acctNumber: 123456789
+ *       '404':
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: User not found
+ */
+
+router.get('/getone', authorization, getOne);
 
 
 module.exports = router;   

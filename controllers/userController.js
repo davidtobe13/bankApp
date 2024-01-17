@@ -15,8 +15,6 @@ exports.signUp = async (req, res) =>{
     } = req.body
         const userExists = await userModel.findOne({email})
 
-        const acctNumber = phoneNumber.slice(1, 11)
-
         if(userExists){
             return res.status(400).json({
                 message: `User with email: ${userExists.email} already exists`
@@ -33,11 +31,11 @@ exports.signUp = async (req, res) =>{
         const hash = bcrypt.hashSync(password && confirmPassword, salt)
 
         const user = await userModel.create({
-            firstName,
-            lastName,
-            email,
+            firstName:firstName.toLowerCase().charAt(0).toUpperCase() + firstName.slice(1),
+            lastName:lastName.toLowerCase().charAt(0).toUpperCase() + lastName.slice(1),
+            email:email.toLowerCase(),
             phoneNumber,
-            acctNumber,
+            acctNumber:phoneNumber.slice(1, 11),
             pin,
             password: hash,
             confirmPassword: hash
@@ -127,3 +125,31 @@ exports.logOut = async (req, res) => {
         });
     }
 };
+
+
+exports.getOne = async (req, res) =>{
+    try{
+        const userId = req.user.userId
+
+        const user = await userModel.findById(userId)
+
+        if(!user){
+            return res.status(404).json({
+                message: `User not found`
+            })
+        }
+        res.status(200).json({
+            message: `User fetched successfully`,
+            data: {
+                name:`${user.firstName} ${user.lastName}`,
+                email: user.email,
+                acctNumber: user.acctNumber
+            }
+        })
+
+    }catch(err){
+        res.status(500).json({
+            message: err.message,
+        })
+    }
+}

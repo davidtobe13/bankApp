@@ -2,9 +2,10 @@ const msgModel = require("../models/msgModel")
 const historyModel = require("../models/historyModel")
 const userModel = require("../models/userModel")
 const depositModel = require("../models/depositModel")
+
+
 exports.deposit = async(req,res)=>{
     try {
-
         // get the depositor's id
         const Id = req.user.userId
 

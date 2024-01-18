@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const { signUp, login, logOut, getOne } = require('../controllers/userController');
+const { signUp, login, logOut, getOne, createPin } = require('../controllers/userController');
 const authorization = require('../middleware/authorization');
 const validation = require('../validation/validation');
 
@@ -125,5 +125,7 @@ router.post('/logout', authorization, logOut);
 
 router.get('/getone', authorization, getOne);
 
+
+router.put('/createpin', authorization, createPin)
 
 module.exports = router;   

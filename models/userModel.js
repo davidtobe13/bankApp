@@ -23,6 +23,35 @@ const userSchema = new mongoose.Schema({
     confirmPassword: {
         type: String,
     },
+    pin: {
+        type: String,
+    },
+    balance:{
+        type: Number,
+        default: 0
+    },
+    transactions: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'transfer'
+        },
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'deposit'
+        },
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'withdraw'
+        },
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'airtime'
+        },
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'electronic'
+        },
+    ],
     blacklist : {
         type: Array,
         default: [],

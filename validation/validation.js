@@ -23,6 +23,9 @@ const validation = (req, res, next) => {
       'string.min': 'Min 8 characters for password',
       'string.max': 'Max 30 characters for password',
     }),
+    pin: hapiJoiValidator.string().min(4).trim().regex(/^\d{4}$/).messages({
+      'string.pattern.base': 'Enter a valid 4-digit pin', // Added a pattern validation message
+  }), 
     confirmPassword: hapiJoiValidator.string().min(8).max(30).required().messages({
       'string.empty': 'confirmPassword cannot be empty',
       'string.min': 'Min 8 characters for confirmPassword',

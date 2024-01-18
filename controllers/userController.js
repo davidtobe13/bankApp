@@ -88,6 +88,7 @@ exports.login = async (req, res) => {
 
         res.status(200).json({
             message: `Welcome onboard, ${user.firstName} .${user.lastName.slice(0,1).toUpperCase()}. You have successfully logged in`,
+            data: user,
             token,
         });
     } catch (err) {
@@ -148,6 +149,76 @@ exports.getOne = async (req, res) =>{
     }catch(err){
         res.status(500).json({
             message: err.message,
+        })
+    }
+}
+
+exports.createPin = async (req, res) =>{
+    try{
+        const userId = req.user.userId
+        const {pin} = req.body
+
+        if(!pin || pin.length != 4){
+            return res.status(400).json({
+                message:`enter a valid 4-digit pin`
+            })
+        }
+        const salt = bcrypt.genSaltSync(10)
+        const hash = bcrypt.hashSync(pin, salt)
+        const user = await userModel.findByIdAndUpdate(userId, {pin:hash}, {new: true})
+
+        if(!user){
+            return res.status(404).json({
+                message: `User not found`
+            })
+        }
+        
+
+       user.pin = hash
+
+        res.status(201).json({
+            message: `Pin created successfully`,
+            data: user
+        })
+
+    }catch(err){
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+
+const cloudinary = require('../utils/cloudinary')
+
+
+exports.profileImage = async (req, res) =>{
+    try{
+        const userId = req.user.userId
+
+        const user = await userModel.findById(userId)
+        const file = req.file.filename
+        const result = await cloudinary.uploader.upload(file)
+
+        const createProfile = await userModel.create({
+            fullName,
+            stack,
+            profileImage: result.secure_url
+        })
+
+        if(!createProfile){
+            return res.status(403).json({
+                message: `Unable to create this user`
+            })
+        }
+        res.status(201).json({
+            message: `Welcome, ${createProfile.fullName}. You have created an account successfully`,
+            data: createProfile
+        })
+
+    }catch(err){
+        res.status(500).json({
+            message: err.message
         })
     }
 }

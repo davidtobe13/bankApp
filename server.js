@@ -7,6 +7,7 @@ require('dotenv').config();
 const app = express();
 const userRouter = require('./routers/userRouter');
 const bettingRouter = require('./routers/bettingRoute');
+const airtimeRouter = require('./routers/airtimeRouter');
 const depositeRouter = require('./routers/depositeRoute');
 const electronicsRouter = require('./routers/electronicsRoute');
 const historyRouter = require('./routers/historyRoute');
@@ -24,6 +25,7 @@ app.use('/api/v1', userRouter);
 app.use('/api/v1', bettingRouter)
 app.use('/api/v1', depositeRouter)
 app.use('/api/v1', bettingRouter)
+app.use('/api/v1', airtimeRouter)
 app.use('/api/v1', historyRouter)
 app.use('/api/v1', msgRouter)
 app.use('/api/v1', transferRouter)

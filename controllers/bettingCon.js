@@ -2,6 +2,7 @@ const msgModel = require("../models/msgModel")
 const historyModel = require("../models/historyModel")
 const userModel = require("../models/userModel")
 const bettingModel = require("../models/bettingModel")
+
 exports.betting = async(req,res)=>{
     try {
 

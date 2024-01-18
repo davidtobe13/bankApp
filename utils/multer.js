@@ -15,7 +15,7 @@ const fileFilter = (req, file, cb) => {
         cb(null, true)
     }
     else{
-        cb(new Error('This file type is not supported; Accepts image only'), false)
+        cb(new message('This file type is not supported; Accepts image only'), false)
     }
 }
 

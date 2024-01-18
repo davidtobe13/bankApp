@@ -33,11 +33,11 @@ const validation = (req, res, next) => {
     }),
   });
 
-  const { error } = validateStudent.validate(req.body);
+  const { message } = validateStudent.validate(req.body);
 
-  if (error) {
+  if (message) {
     return res.status(400).json({
-      message: error.details.map(detail => detail.message), // Return an array of all error messages
+      message: message.details.map(detail => detail.message), // Return an array of all message messages
     });
   }
 

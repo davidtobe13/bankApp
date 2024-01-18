@@ -3,25 +3,32 @@ const {DateTime} = require('luxon')
 
 const createdOn = DateTime.now().toLocaleString({weekday:"short",month:"short",day:"2-digit", year:"numeric", hour:"2-digit",minute:"2-digit"})
 
-
-const depositeSchema = new mongoose.Schema({
-    transactionType:{
-        type:String,
-        default:"Deposit"
-    },
-    user:{
+const historySchema = new mongoose.Schema({
+    userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
     },
-    amount:{
-        type:Number
+    transactionType:{
+        type:String
     },
-    depositDate:{
+    amount:{
+        type:String
+    },
+    from:{
+        type:String
+    },
+    to:{
+        type:String
+    },
+    desc:{
+        type:String
+    },
+    date:{
         type:String,
         default:createdOn
-    }
+    },
 })
 
-const depositeModel = mongoose.model("deposit",depositeSchema)
+const historyModel = mongoose.model("history",historySchema)
 
-module.exports = depositeModel
+module.exports = historyModel

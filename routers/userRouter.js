@@ -1,9 +1,11 @@
 const express = require('express');
 
 const router = express.Router();
-const { signUp, login, logOut, getOne, createPin } = require('../controllers/userController');
+const { signUp, login, logOut, getOne, createPin, profileImage } = require('../controllers/userController');
 const authorization = require('../middleware/authorization');
 const validation = require('../validation/validation');
+const upload = require('../utils/multer');
+
 
 // userRouter.js
 
@@ -92,7 +94,7 @@ router.post('/login', login)
  *       '401':
  *         description: Unauthorized. User not authenticated
  *       '500':
- *         description: Internal Server Error
+ *         description: Internal Server message
  */
 router.post('/logout', authorization, logOut);
 
@@ -127,5 +129,8 @@ router.get('/getone', authorization, getOne);
 
 
 router.put('/createpin', authorization, createPin)
+
+
+router.put('/profileimage', authorization, upload.single('profileImage'), profileImage)
 
 module.exports = router;   

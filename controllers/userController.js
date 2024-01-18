@@ -1,6 +1,8 @@
 const userModel = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('../utils/cloudinary')
+
 
 exports.signUp = async (req, res) =>{
     try{
@@ -34,7 +36,7 @@ exports.signUp = async (req, res) =>{
             lastName:lastName.toLowerCase().charAt(0).toUpperCase() + lastName.slice(1),
             email:email.toLowerCase(),
             phoneNumber,
-            acctNumber:phoneNumber.slice(1, 11),
+            acctNum:phoneNumber.slice(1, 11),
             password: hash,
             confirmPassword: hash
             
@@ -79,6 +81,8 @@ exports.login = async (req, res) => {
         const token = jwt.sign(
             {
                 userId: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 email: user.email,
                 phoneNumber: user.phoneNumber,
             },
@@ -163,9 +167,9 @@ exports.createPin = async (req, res) =>{
                 message:`enter a valid 4-digit pin`
             })
         }
-        const salt = bcrypt.genSaltSync(10)
-        const hash = bcrypt.hashSync(pin, salt)
-        const user = await userModel.findByIdAndUpdate(userId, {pin:hash}, {new: true})
+        // const salt = bcrypt.genSaltSync(10)
+        // const hash = bcrypt.hashSync(pin, salt)
+        const user = await userModel.findByIdAndUpdate(userId, {pin}, {new: true})
 
         if(!user){
             return res.status(404).json({
@@ -174,7 +178,7 @@ exports.createPin = async (req, res) =>{
         }
         
 
-       user.pin = hash
+       user.pin = pin
 
         res.status(201).json({
             message: `Pin created successfully`,
@@ -189,36 +193,30 @@ exports.createPin = async (req, res) =>{
 }
 
 
-// const cloudinary = require('../utils/cloudinary')
+exports.profileImage = async (req, res) =>{
+    try{
+        const userId = req.user.userId
 
+        const file = req.file.filename
+        const result = await cloudinary.uploader.upload(file)
 
-// exports.profileImage = async (req, res) =>{
-//     try{
-//         const userId = req.user.userId
+        const createProfile =  await userModel.findByIdAndUpdate(userId, {
+            profileImage: result.secure_url
+        }, {new: true})
 
-//         const user = await userModel.findById(userId)
-//         const file = req.file.filename
-//         const result = await cloudinary.uploader.upload(file)
+        if(!createProfile){
+            return res.status(403).json({
+                message: `Unable to create this user`
+            })
+        }
+        res.status(201).json({
+            message: `Welcome, ${createProfile.fullName}. You have created an account successfully`,
+            data: createProfile
+        })
 
-//         const createProfile = await userModel.create({
-//             fullName,
-//             stack,
-//             profileImage: result.secure_url
-//         })
-
-//         if(!createProfile){
-//             return res.status(403).json({
-//                 message: `Unable to create this user`
-//             })
-//         }
-//         res.status(201).json({
-//             message: `Welcome, ${createProfile.fullName}. You have created an account successfully`,
-//             data: createProfile
-//         })
-
-//     }catch(err){
-//         res.status(500).json({
-//             message: err.message
-//         })
-//     }
-// }
+    }catch(err){
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}

@@ -39,7 +39,7 @@ const authorization = async (req, res, next) => {
 
         next();
     } catch (err) {
-        if (err instanceof jwt.JsonWebTokenError) {
+        if (err instanceof jwt.JsonWebTokenmessage) {
             return res.status(401).json({
                 message: 'Authorization failed: Invalid token'
             });

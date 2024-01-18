@@ -3,26 +3,20 @@ const {DateTime} = require('luxon')
 
 const createdOn = DateTime.now().toLocaleString({weekday:"short",month:"short",day:"2-digit", year:"numeric", hour:"2-digit",minute:"2-digit"})
 
-const airtimeSchema = new mongoose.Schema({
+const betSchema = new mongoose.Schema({
     transactionType:{
         type:String,
-        default:"Airtime"
+        default:"Betting"
     },
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
     },
-    phoneNumber:{
-        type:Number,
-        required:true
-    },
-    network:{
-        type:String,
-        required:true
-    },
     amount:{
-        type:Number,
-        required:true
+        type:Number
+    },
+    betId:{
+        type:String
     },
     paymentDate:{
         type:String,
@@ -30,6 +24,6 @@ const airtimeSchema = new mongoose.Schema({
     }
 })
 
-const airtimeModel = mongoose.model("airtime",airtimeSchema)
+const betModel = mongoose.model("bet",betSchema)
 
-module.exports = airtimeModel
+module.exports = betModel

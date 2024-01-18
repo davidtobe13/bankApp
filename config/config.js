@@ -8,5 +8,5 @@ mongoose.connect(db)
     console.log('Database connection established')
 })
 .catch((err) =>{
-    console.log(`Error connecting to database: ${err.message}`);
+    console.log(`message connecting to database: ${err.message}`);
 });

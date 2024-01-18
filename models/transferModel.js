@@ -1,25 +1,39 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
+const {DateTime} = require('luxon')
+
+const createdOn = DateTime.now().toLocaleString({weekday:"short",month:"short",day:"2-digit", year:"numeric", hour:"2-digit",minute:"2-digit"})
+
 const transferSchema = new mongoose.Schema({
-    rciever: {
-        type: String,
-        required: true
+    transactionType:{
+        type:String,
+        default:"Transfer"
     },
-    name: {
+    sender:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"user"
+    },
+    receiver:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"user"
+    },
+    senderName:{
         type: String
     },
-    amount: {
-        type: Number,
-        required: true
+    receiverName:{
+        type:String
     },
-    description: {
-        type: String
+    amount:{
+        type:Number
     },
-    date: {
-        type: Date,
-        default: Date.now
-    }
+    desc:{
+        type:String
+    },
+    transferDate:{
+        type:String,
+        default:createdOn
+    },
 })
 
-const transferModel = mongoose.model('transfer', transferSchema)
+const transferModel = mongoose.model("transfer",transferSchema)
 
 module.exports = transferModel

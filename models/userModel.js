@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
     },
-    acctNumber: {
+    acctNum: {
         type: String,
     },
     password: {
@@ -23,14 +23,14 @@ const userSchema = new mongoose.Schema({
     confirmPassword: {
         type: String,
     },
-    pin: {
+    Pin: {
         type: String,
     },
-    balance:{
+    acctBalance:{
         type: Number,
-        default: 0
+        default: 0.00
     },
-    transactions: [
+    Transactions: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'transfer'
@@ -49,7 +49,11 @@ const userSchema = new mongoose.Schema({
         },
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'electronic'
+            ref: 'electronics'
+        },
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'bet'
         },
     ],
     blacklist : {

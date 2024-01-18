@@ -24,6 +24,6 @@ const betSchema = new mongoose.Schema({
     }
 })
 
-const betModel = mongoose.model("bet",betSchema)
+const bettingModel = mongoose.model("bet",betSchema)
 
-module.exports = betModel
+module.exports = bettingModel

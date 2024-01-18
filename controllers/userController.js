@@ -189,36 +189,36 @@ exports.createPin = async (req, res) =>{
 }
 
 
-const cloudinary = require('../utils/cloudinary')
+// const cloudinary = require('../utils/cloudinary')
 
 
-exports.profileImage = async (req, res) =>{
-    try{
-        const userId = req.user.userId
+// exports.profileImage = async (req, res) =>{
+//     try{
+//         const userId = req.user.userId
 
-        const user = await userModel.findById(userId)
-        const file = req.file.filename
-        const result = await cloudinary.uploader.upload(file)
+//         const user = await userModel.findById(userId)
+//         const file = req.file.filename
+//         const result = await cloudinary.uploader.upload(file)
 
-        const createProfile = await userModel.create({
-            fullName,
-            stack,
-            profileImage: result.secure_url
-        })
+//         const createProfile = await userModel.create({
+//             fullName,
+//             stack,
+//             profileImage: result.secure_url
+//         })
 
-        if(!createProfile){
-            return res.status(403).json({
-                message: `Unable to create this user`
-            })
-        }
-        res.status(201).json({
-            message: `Welcome, ${createProfile.fullName}. You have created an account successfully`,
-            data: createProfile
-        })
+//         if(!createProfile){
+//             return res.status(403).json({
+//                 message: `Unable to create this user`
+//             })
+//         }
+//         res.status(201).json({
+//             message: `Welcome, ${createProfile.fullName}. You have created an account successfully`,
+//             data: createProfile
+//         })
 
-    }catch(err){
-        res.status(500).json({
-            message: err.message
-        })
-    }
-}
+//     }catch(err){
+//         res.status(500).json({
+//             message: err.message
+//         })
+//     }
+// }

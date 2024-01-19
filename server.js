@@ -1,7 +1,6 @@
 const express = require('express');
 require('./config/config');
 const cors = require('cors');
-const swagger = require('./swagger'); // Import the Swagger configuration
 require('dotenv').config();
 
 const app = express();
@@ -18,8 +17,6 @@ const withdrawRouter = require('./routers/withdrawRoute');
 app.use(cors());
 app.use(express.json());
 
-// Use the Swagger middleware
-app.use('/api-docs', swagger.serveSwagger, swagger.setupSwagger);
 
 app.use('/api/v1', userRouter);
 app.use('/api/v1', bettingRouter)
